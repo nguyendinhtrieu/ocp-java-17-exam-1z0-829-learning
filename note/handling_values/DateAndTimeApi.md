@@ -44,3 +44,8 @@ LocalDate d2
 Durations and periods differ in their treatment of daylight savings time when added to ZonedDateTime. A Duration will add an exact number of seconds, thus a duration of one day is always exactly 24 hours. By contrast, a Period will add a conceptual day, trying to maintain the local time.
 
 For example, consider adding a period of one day and a duration of one day to 18:00 on the evening before a daylight savings gap. The Period will add the conceptual day and result in a ZonedDateTime at 18:00 the following day. By contrast, the Duration will add exactly 24 hours, resulting in a ZonedDateTime at 19:00 the following day (assuming a one hour DST gap).
+
+--------------------------------------------------------------------------------
+You need to remember that Instant doesn't represent date. It represents an instantaneous point on the time-line in nanoseconds and is used to record event time-stamps in the application. You cannot create an instance of Instant using new Instance(). You create an instance using static methods Instant.now() or Instant.now(Clock ).
+
+Instant.now() returns the current instant from the system clock (also known as machine time), which is always in UTC. UTC may not necessarily be same as the local time. For example, if the local time is ahead of UTC by two hours and if local time is 3 PM, then UTC time must be 1PM (3 - 2). Therefore, the Instant.now() will create an Instant representing 2022-01-20T13:00:00.001Z. (Assuming the date is Jan 20th 2022).

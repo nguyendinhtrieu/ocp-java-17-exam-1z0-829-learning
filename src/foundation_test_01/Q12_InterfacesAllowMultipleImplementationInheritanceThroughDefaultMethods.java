@@ -1,4 +1,4 @@
-package foundation_test_01;
+package src.foundation_test_01;
 
 public class Q12_InterfacesAllowMultipleImplementationInheritanceThroughDefaultMethods {
 
@@ -13,9 +13,11 @@ public class Q12_InterfacesAllowMultipleImplementationInheritanceThroughDefaultM
             System.out.println("in I2.m1");
         }
     }
+/*
 
     class CI implements I1, I2 { //This class will not compile. 
     }
+*/
 
     //This class will compile because it provides its own implementation of m1. 
     class C2 implements I1, I2 {

@@ -7,7 +7,7 @@ Thus, bottom up approach is possible only when the dependencies are modularized 
 While modularizing an app in a top-down approach, you need to remember the following points -
 1. Any jar file can be converted into an automatic module by simply putting that jar on the module-path instead of the classpath. Java automatically derives the name of this module from the name of the jar file.  
 2. Any jar that is put on classpath (instead of module-path) is loaded as a part of the "unnamed" module.  
-3. An explicitly named module (which means, a module that has an explicitly defined name in its module-info.java file) can specify dependency on an automatic module just like it does for any other module i.e. by adding a requires <module-name>; clause in its module info but it cannot do so for the unnamed module because there is no way to write a requires clause without a name.  In other words, a named module can access classes present in an automatic module but not in the unnamed module.  
+3. An explicitly named module (which means, a module that has an explicitly defined name in its module-info.java file) can specify dependency on an automatic module just like it does for any other module i.e. by adding a requires <module-name>; clause in its module info but it cannot do so for the unnamed module because there is no way to write a requires clause without a name.  In other words, a named module can access classes present in an automatic module but not in the unnamed module.  
 4. Automatic modules are given access to classes in the unnamed module (even though there is no explicitly defined module-info and requires clause in an automatic module). In other words, a class from an automatic module will be able to read a class in the unnamed module without doing anything special.  
 5. An automatic module exports all its packages and is allowed to read all packages exported by other modules. Thus, an automatic module can access: all packages of all other automatic modules + all packages exported by all explicitly named modules + all packages of the unnamed module (i.e. classes loaded from the classpath).
    
@@ -21,3 +21,29 @@ There are two possible ways for an automatic module to get its name:
 
 ### Another reference
 https://www3.ntu.edu.sg/home/ehchua/programming/java/JDK9_Module.html#:~:text=A%20CLASSPATH%20is%20a%20sequence,modules%20used%20in%20the%20application.
+
+------------------------------------------------------------------------------
+-jdkinternals or --jdk-internals<br>
+Finds class-level dependencies in the JDK internal APIs. By default, this option analyzes all classes specified in the --classpath option and input files unless you specified the -include option. You can’t use this option with the -p, -e, and -s options.
+
+For example, if you have the following class (you need to compile it with JDK 8 or less because sun.misc.BASE64Encoder was removed in Java 9):
+
+```
+public class TestClass{
+   public static void main(String[] args) throws Exception {
+        sun.misc.BASE64Encoder encoder = new sun.misc.BASE64Encoder();
+        String s = encoder.encode("hello".getBytes());
+   }
+}
+```
+and if you run jdeps -jdkinternals TestClass.class, you will see the following output:
+```
+TestClass.class -> JDK removed internal API
+    TestClass          -> sun.misc.BASE64Encoder     JDK internal API (JDK removed internal API)
+```
+Warning: JDK internal APIs are unsupported and private to JDK implementation that are subject to be removed or changed incompatibly and could break your application. Please modify your code to eliminate dependence on any JDK internal APIs. For the most recent update on JDK internal API replacements, please check: https://wiki.openjdk.java.net/display/JDK8/Java+Dependency+Analysis+Tool
+```
+JDK Internal API                         Suggested Replacement
+----------------                         ---------------------
+sun.misc.BASE64Encoder                   Use java.util.Base64 @since 1.8
+```

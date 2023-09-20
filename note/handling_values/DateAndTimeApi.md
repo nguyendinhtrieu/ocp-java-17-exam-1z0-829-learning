@@ -49,3 +49,11 @@ For example, consider adding a period of one day and a duration of one day to 18
 You need to remember that Instant doesn't represent date. It represents an instantaneous point on the time-line in nanoseconds and is used to record event time-stamps in the application. You cannot create an instance of Instant using new Instance(). You create an instance using static methods Instant.now() or Instant.now(Clock ).
 
 Instant.now() returns the current instant from the system clock (also known as machine time), which is always in UTC. UTC may not necessarily be same as the local time. For example, if the local time is ahead of UTC by two hours and if local time is 3 PM, then UTC time must be 1PM (3 - 2). Therefore, the Instant.now() will create an Instant representing 2022-01-20T13:00:00.001Z. (Assuming the date is Jan 20th 2022).
+
+-----------------------------------------------------------------------------------
+This is actually a simple question to answer if you know the following basic rules -
+1. Instant  is a point on Java time line. This timeline start from  from the first second of January 1, 1970 (1970-01-01T00:00:00Z) also called the EPOCH. Note that there is no time zone here. You may think of it as "Java Time Zone" and it matches with GMT or UTC time zone. That means, 1PM in Java time zone will be same as 1 PM in GMT or UTC time zone.
+2. Once created, an Instant cannot be modified. Its methods such as plus and minus return a new Instant object.
+3. Instant works with time (instead of dates), so you can use Duration instance to create new Instants.
+4. LocalDateTime is a time in a given time zone. (But remember that an instance of LocalDateTime itself does not store the zone information!). You can, therefore, use an Instant and a time zone to create a LocalDateTime object.
+5. Whenever you convert an Instant to a LocalDateTime using a time zone, just add or substract the GMT offset of the time zone i.e. if the time zone is GMT+2, add 2 hours and if the time zone is GMT-2, substract two hours. For example, you can yourself this question - if it is 1PM (for example) here in London, which is in GMT, then what would be the time in New York (for example), which is in GMT-4 (or 5, depending on whether the date lies when Day Light Savings time is on or not). The answer would be 1PM - 4 i.e. 9AM. 

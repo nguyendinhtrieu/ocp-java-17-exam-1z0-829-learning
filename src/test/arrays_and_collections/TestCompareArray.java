@@ -10,5 +10,10 @@ public class TestCompareArray {
         System.out.println(Arrays.compare(new int[]{1, 2}, new int[]{1, 2, 5, 6})); //-2
         System.out.println(Arrays.compare(new int[]{1, 2}, new int[]{2, 1, 5, 6})); //-1
         System.out.println(Arrays.compare(new int[]{2, 1, 5, 6}, new int[]{1, 2})); //1
+
+        System.out.println(Arrays.mismatch(new int[]{1, 2, 5, 6}, new int[]{1, 2})); //2
+        System.out.println(Arrays.mismatch(new int[]{1, 4}, new int[]{1, 2, 5, 6})); //1
+        System.out.println(Arrays.mismatch(new int[]{1, 2, 5, 6}, new int[]{}));     //0
+        System.out.println(Arrays.mismatch(new int[]{}, new int[]{1, 2}));           //0
     }
 }

@@ -84,6 +84,7 @@ abstract interface i {
     private static void m() {}
     public default void m1() {}
     public void m2();
+    private void m3(){};
 }
 
 abstract class AA {

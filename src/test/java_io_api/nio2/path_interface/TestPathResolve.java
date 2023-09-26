@@ -1,4 +1,4 @@
-package src.test.java_io_api.nio2.path_interface;
+package test.java_io_api.nio2.path_interface;
 
 import java.nio.file.Paths;
 

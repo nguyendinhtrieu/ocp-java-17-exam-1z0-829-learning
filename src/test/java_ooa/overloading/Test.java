@@ -26,7 +26,7 @@ class Test {
     }
 
     static void test(ColoredPoint p, ColoredPoint q) { // test(cp, cp); will compile if have this method declaration
-        System.out.println("(Point, ColoredPoint)");
+        System.out.println("(ColoredPoint, ColoredPoint)");
     }
 
     public static int i = 0;

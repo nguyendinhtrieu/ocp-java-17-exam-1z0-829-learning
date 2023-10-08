@@ -39,6 +39,13 @@ stmt.setObject("DEPTID", 20, java.sql.Types.INTEGER);
 - NOTE 4: You cannot mix the index and parameter markers in the same query. That is, you can either set parameters using the index or using the parameter markers but not both.
   
 ## 3. Register OUT (and INOUT) parameters
+To use the out parameter (assuming that the third parameter is an OUT parameter in this stored procedure), you must first "register" it like this:
+```
+stmt.registerOutParameter(3, java.sql.Types.INTEGER);
+// OR
+stmt.registerOutParameter("AMOUNT", java.sql.Types.INTEGER);
+```
+## 4. Retrieve the result
 The procedure can be executed and the result can be retrieved as follows:
 ```
 boolean hasResults = stmt.execute(); //check if the stored proc has returned one or more ResultSets
